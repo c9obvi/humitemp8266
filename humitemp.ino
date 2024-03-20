@@ -190,7 +190,7 @@ void loop() {
   }
   // Temperature checks
   if (!isnan(temperatureF)) {
-    checkTemperatureAndNotify(temperatureF, 70.0, tempAbove70FNotified, "Temperature is above 70 °F🌡️");
+    checkTemperatureAndNotify(temperatureF, 70.0, tempAbove70FNotified, "Temperature is above 70 °F🌡️", "Temperature is below 70 °F🌡️");
     checkTemperatureAndNotify(temperatureF, 75.0, tempAbove75FNotified, "Temperature is above 75 °F🌡️", "");
     checkTemperatureAndNotify(temperatureF, 80.0, tempAbove80FNotified, "Temperature is above 80 °F🌡️", "");
     checkTemperatureAndNotify(temperatureF, 85.0, tempAbove85FNotified, "⚠️ Caution, temperature is above 85 °F🌡️", "");
