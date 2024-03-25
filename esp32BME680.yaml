@@ -1,0 +1,72 @@
+i2c:
+  - id: "bme680_1"
+    sda: GPIO22
+    scl: GPIO33
+    scan: true
+ 
+bme680_bsec:
+  - id: bme680
+    i2c_id: "bme680_1"
+    address: 0x77
+ 
+sensor:
+  - platform: bme680_bsec
+    bme680_bsec_id: bme680
+    temperature:
+      name: "BME680 Temperature"
+      accuracy_decimals: 1
+      id: temperature
+    pressure:
+      name: "BME680 Pressure"
+      accuracy_decimals: 5
+      id: pressure
+    humidity:
+      name: "BME680 Humidity"
+      id: humidity
+      accuracy_decimals: 1
+    iaq:
+      name: "BME680 IAQ"
+      id: iaq
+    co2_equivalent:
+      name: "BME680 CO2 Equivalent"
+    gas_resistance:
+      name: "BME680 Gas Resistance"
+      id: gas
+      accuracy_decimals: 5
+    breath_voc_equivalent:
+      name: "BME680 Intake Breath VOC Equivalent"
+ 
+text_sensor:
+  - platform: bme680_bsec
+    bme680_bsec_id: bme680
+    iaq_accuracy:
+      name: "BME680 IAQ Accuracy"
+ 
+  - platform: template
+    name: "BME680 IAQ Classification"
+    icon: "mdi:checkbox-marked-circle-outline"
+    lambda: |-
+      if ( int(id(iaq).state) <= 50) {
+        return {"Excellent"};
+      }
+      else if (int(id(iaq).state) >= 51 && int(id(iaq).state) <= 100) {
+        return {"Good"};
+      }
+      else if (int(id(iaq).state) >= 101 && int(id(iaq).state) <= 150) {
+        return {"Lightly polluted"};
+      }
+      else if (int(id(iaq).state) >= 151 && int(id(iaq).state) <= 200) {
+        return {"Moderately polluted"};
+      }
+      else if (int(id(iaq).state) >= 201 && int(id(iaq).state) <= 250) {
+        return {"Heavily polluted"};
+      }
+      else if (int(id(iaq).state) >= 251 && int(id(iaq).state) <= 350) {
+        return {"Severely polluted"};
+      }
+      else if (int(id(iaq).state) >= 351) {
+        return {"Extremely polluted"};
+      }
+      else {
+        return {"error"};
+      }
